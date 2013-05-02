@@ -12,7 +12,7 @@ abstract class AbstractShape {
         _x = x;
         _y = y;}
 
-    public abstract double area ();
+    public abstract double area (); //can't define area here
 
     public boolean equals (Object rhs) {
         if (!(rhs instanceof AbstractShape))
@@ -24,9 +24,9 @@ abstract class AbstractShape {
         _x = x;
         _y = y;}
 
-    public abstract String toString ();
+    public abstract String toString (); //children must override these
 
-    protected String toString2 () {
+    protected String toString2 () { //helper method still gives access to private attributes _x and _y
         return _x + ", " + _y;}}
 
 final class Circle extends AbstractShape {
@@ -48,7 +48,7 @@ final class Circle extends AbstractShape {
     public int radius () {
         return _r;}
 
-    public String toString () {
+    public String toString () { //calls parent's toString2
         return "(" + super.toString2() + ", " + _r + ")";}}
 
 final class AbstractClasses {
@@ -62,7 +62,7 @@ final class AbstractClasses {
 //      assert x.radius() == 0;
 
         {
-        final AbstractShape x = new AbstractShape(2, 3);
+        final AbstractShape x = new AbstractShape(2, 3); //can't create instances of abstract classes
         final AbstractShape y = new AbstractShape(2, 3);
         assert x != y;
         assert x.equals(y);
@@ -84,7 +84,7 @@ final class AbstractClasses {
         }
 
         {
-        final AbstractShape x = new Circle(2, 3, 4);
+        final AbstractShape x = new Circle(2, 3, 4); //can make references of abstract (still no instances)
         assert x.area()   == 3.14 * 4 * 4;
         x.move(5, 6);
 //      assert x.radius() == 0;

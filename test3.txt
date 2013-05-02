@@ -4,10 +4,10 @@ CopyAssignment.c++ - check
 Inheritance.java - check
 Inheritance.c++ - check
 DynamicBinding.c++ -check
-DynamicBinding.java -RECHECK
-AbstractClasses.java
-Shapes.h
-AbstractClasses.c++
+DynamicBinding.java -check
+AbstractClasses.java -check
+Shapes.h -check
+AbstractClasses.c++ -check
 Handle1.h
 Handle1.c++
 MethodOverriding1.java

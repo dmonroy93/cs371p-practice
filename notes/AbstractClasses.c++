@@ -11,7 +11,7 @@
 int main () {
     using namespace std;
     cout << "AbstractClasses.c++" << endl;
-/*
+/* //don't compile because you can't instantiate an abstract class
     {
     AbstractShape x(2, 3);
     x.move(4, 5);
@@ -47,8 +47,8 @@ int main () {
     AbstractShape* const p = new Circle(2, 3, 4);
     p->move(5, 6);
     assert(p->area()                == 3.14 * 4 * 4);
-//  assert(p->AbstractShape::area() == 0);                      // doesn't compile
-//  assert(p->radius() == 4);                                   // doesn't compile
+//  assert(p->AbstractShape::area() == 0);   // doesn't compile bc it's pure virtual
+//  assert(p->radius() == 4);        // doesn't compile AS doesn't know about radius
     if (const Circle* const q = dynamic_cast<const Circle*>(p))
         assert(q->radius() == 4);
     try {
@@ -56,16 +56,16 @@ int main () {
         assert(r.radius() == 4);}
     catch (const bad_cast& e) {
         assert(false);}
-    delete p;
+    delete p; //since destructor is virtual this isn't illdefined anymore
     }
 
     {
     const AbstractShape* const p = new Circle(2, 3, 4);
     const AbstractShape*       q = new Circle(2, 3, 5);
     assert(*p != *q);
-//  *q = *p;                                            // doesn't compile
+//  *q = *p;        // doesn't compile since the assignment operator is protected
     delete q;
-    q = p->clone();
+    q = p->clone(); //returns a clone of p on the heap
     assert(*p == *q);
     delete p;
     delete q;
@@ -84,7 +84,7 @@ int main () {
     assert(a[1].area() == 3.14 * 7 * 7);
     const AbstractShape* const p = a;
     assert(p[0].area() == 3.14 * 4 * 4);
-//  assert(p[1].area() == 3.14 * 7 * 7);                    // illdefined
+//  assert(p[1].area() == 3.14 * 7 * 7);   // illdefined //again it wouldn't move to the next circle but to the next AS
     }
 
     cout << "Done." << endl;

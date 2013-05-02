@@ -29,35 +29,39 @@ class AbstractShape {
             _x = that._x;
             _y = that._y;
             return *this;}
-
+	//pure virtual stuff
         virtual bool equals (const AbstractShape& that) const = 0;
 
         virtual std::istream& read (std::istream& in) = 0;
 
         virtual std::ostream& write (std::ostream& out) const = 0;
 
-    public:
-        AbstractShape (int x, int y) :
+    public: 
+        AbstractShape (int x, int y) : //note that _x and _y are in initializer block
                 _x (x),
                 _y (y)
             {}
-/*
+/* //get it for free
         AbstractShape (const AbstractShape& that) :
                 _x (that._x),
                 _y (that._y)
             {}
 */
+	//Serves the purpose of marking a class virtual
         virtual ~AbstractShape ()
             {}
 
         virtual double area () const = 0;
 
         virtual AbstractShape* clone () const = 0;
-
+ /* Not virtual because this won't change in derived classes. The equivelant of calling it "final" */
         void move (int x, int y) {
             _x = x;
             _y = y;}};
-
+/**
+ * The following three functions were marked PURE VIRTUAL in the class, but c++ allows for
+ * optionally defining a pure virtual function outside of the class. Can only be done outside though
+ */
 bool AbstractShape::equals (const AbstractShape& that) const {
     return (_x == that._x) && (_y == that._y);}
 
@@ -88,7 +92,7 @@ class Circle : public AbstractShape {
                 AbstractShape (x, y),
                 _r            (r)
             {}
-/*
+/* //get these for free
         Circle (const Circle& that) :
                 AbstractShape (that),
                 _r            (that._r)
