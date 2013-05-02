@@ -4,6 +4,7 @@
 
 import java.util.Arrays;
 
+//This is what Object's API looks like
 /*
 class Object {
     protected Object clone () throws CloneNotSupportedException {
@@ -16,6 +17,7 @@ class Object {
         return this == that;}}
 */
 
+//MyArrayList will inherit from Cloneable
 final class MyArrayList<T> implements Cloneable {
     private int s;
     private T[] a;
