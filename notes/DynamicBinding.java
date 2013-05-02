@@ -30,7 +30,7 @@ class B extends A {
 
     public String h2 () {
         return "B.h2";}}
-
+ 
 final class DynamicBinding {
     public static void main (String[] args) {
         System.out.println("MethodOverriding.java");
@@ -46,7 +46,7 @@ final class DynamicBinding {
         B x = new B();
         assert x.f1() == "B.f2";
         assert x.g1() == "A.g2";
-        assert x.h1() == "A.h2";
+        assert x.h1() == "A.h2"; //If B also had a h1() then it'd be "B.h2()"
         }
 
         {
