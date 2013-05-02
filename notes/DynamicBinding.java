@@ -18,7 +18,7 @@ class A {
     public String h1 () {
         return h2();}
 
-    private String h2 () {
+    private String h2 () { //by marking it private you turn off Dynamic binding
         return "A.h2";}}
 
 class B extends A {

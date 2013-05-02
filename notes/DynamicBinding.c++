@@ -8,7 +8,7 @@
 
 using namespace std::rel_ops;
 
-class Shape {
+class Shape {//these friends call on helper methods
     friend bool operator == (const Shape& lhs, const Shape& rhs) {
         return lhs.equals(rhs);}
 
@@ -21,7 +21,7 @@ class Shape {
     private:
         int _x;
         int _y;
-
+//helper methods are protected and vitual
     protected:
         virtual bool equals (const Shape& that) const {
             return (_x == that._x) && (_y == that._y);}
@@ -39,7 +39,7 @@ class Shape {
             {}
 
         virtual ~Shape ()
-            {}
+            {} //Destructor is also virtual which automatically makes class virtual
 
 /*
         Shape (const Shape& that) :
@@ -59,7 +59,7 @@ class Shape {
 
         virtual double area () const {
             return 0;}
-
+//move is final in java but in c++ you can potentially override it (you should have a shape pointer to avoid this though)
         void move (int x, int y) {
             _x = x;
             _y = y;}};
@@ -69,8 +69,8 @@ class Circle : public Shape {
         int _r;
 
     protected:
-        virtual bool equals (const Shape& that) const {
-            if (const Circle* const p = dynamic_cast<const Circle*>(&that))
+        virtual bool equals (const Shape& that) const { //Need a Shape again in equals and then you must cast it into a Circle
+            if (const Circle* const p = dynamic_cast<const Circle*>(&that)) //dynamic cast is only used when there's a virtual
                 return Shape::equals(*p) && (_r == p->_r);
             return false;}
 
@@ -121,7 +121,7 @@ int main () {
     {
     Shape x(2, 3);
     x.move(4, 5);
-    assert(x.area()   == 0);
+    assert(x.area()   == 0); //we know it's a shape so area and == are shape's
 //  assert(x.radius() == 0); // doesn't compile
     }
 
@@ -152,10 +152,10 @@ int main () {
 //  Circle* const p = new Shape(2, 3);              // doesn't compile
     Shape*  const p = new Circle(2, 3, 4);
     p->move(5, 6);
-    assert(p->area()        == 3.14 * 4 * 4);
+    assert(p->area()        == 3.14 * 4 * 4); //dynamic binding bc it's virtual
     assert(p->Shape::area() == 0);
 //  assert(p->radius() == 4);                       // doesn't compile
-    if (Circle* const q = dynamic_cast<Circle*>(p))
+    if (Circle* const q = dynamic_cast<Circle*>(p)) //dynamic casting also helps determine if p is a circle
         assert(q->radius() == 4);
     try {
         Circle& r = dynamic_cast<Circle&>(*p);
@@ -168,8 +168,8 @@ int main () {
     {
     const Shape* const p = new Circle(2, 3, 4);
           Shape* const q = new Circle(2, 3, 5);
-    assert(*p != *q);
-//  *q = *p;                                                    // illdefined
+    assert(*p != *q); 
+//  *q = *p;             // illdefined //slicing happens again
     if (const Circle* const r = dynamic_cast<const Circle*>(p))
         if (Circle* const s = dynamic_cast<Circle*>(q))
             *s = *r;
