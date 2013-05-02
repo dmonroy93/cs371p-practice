@@ -4,7 +4,7 @@
 
 import java.util.Arrays;
 
-//This is what Object's API looks like
+//This is what part of Object's API looks like
 /*
 class Object {
     protected Object clone () throws CloneNotSupportedException {
@@ -18,6 +18,7 @@ class Object {
 */
 
 //MyArrayList will inherit from Cloneable
+        //The Cloneable API allows Object to know you're cloneable and thus doesn't throw the exception
 final class MyArrayList<T> implements Cloneable {
     private int s;
     private T[] a;
@@ -36,6 +37,8 @@ final class MyArrayList<T> implements Cloneable {
     public Object clone () {
         try {
             final MyArrayList<T> that = (MyArrayList<T>) super.clone(); // warning: unchecked cast
+            //^This also copies all the private values
+            //Keyword final is used to make it immutable (can't point anywhere else)
             that.a = (T[]) new Object[s];                               // warning: unchecked cast
             System.arraycopy(a, 0, that.a, 0, s);
             return that;}
@@ -77,7 +80,8 @@ final class CloneEqualsTest {
         x.add(0, "abc");
         x.add(1, "def");
         x.add(2, "ghi");
-        final MyArrayList<String> y = (MyArrayList<String>) x.clone();   // warning: unchecked cast
+        final MyArrayList<String> y = (MyArrayList<String>) x.clone();   // warning: unchecked cast 
+        //^If you don't cast it it wouldn't compile since clone is protected
         assert x != y;
         assert x.equals(y);
         }

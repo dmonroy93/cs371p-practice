@@ -16,6 +16,7 @@ class my_vector {
 
     public:
         explicit my_vector (std::size_t s, const T& v = T()) :
+        //If we're not given what to fill my_vector with then we initialize with default values
                 _s (s),
                 _a (new T[_s]) {
             std::fill(begin(), end(), v);}
@@ -26,12 +27,16 @@ class my_vector {
             std::copy(that.begin(), that.end(), begin());}
 
         my_vector& operator = (my_vector that) {
-            std::swap(_s, that._s);
-            std::swap(_a, that._a);
-            return *this;}
+            //return by reference because you want to be able to use it then
+            std::swap(_s, that._s); //here if you did _s = that._s there would be no prob bc it's an int so no leaks
+            std::swap(_a, that._a); //you have to swap because if you did _a = that._a you'd get a memory leak
+            return *this;
+            //since you invoke it in this (which is a pointer) you need to dereference
+        }
 
         ~my_vector () {
             delete [] _a;}
+            //use delete[] because it's an array
 
         T* begin () {
             return _a;}
