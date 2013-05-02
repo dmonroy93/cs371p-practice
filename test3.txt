@@ -8,8 +8,8 @@ DynamicBinding.java -check
 AbstractClasses.java -check
 Shapes.h -check
 AbstractClasses.c++ -check
-Handle1.h
-Handle1.c++
+Handle1.h -check
+Handle1.c++ -check
 MethodOverriding1.java
 MethodOverriding1.c++
 MethodOverriding2.java

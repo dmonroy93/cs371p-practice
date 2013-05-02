@@ -39,10 +39,10 @@ class Handle {
             _p = p;}
 
         Handle (const Handle& that) {
-            if (!that._p)
-                _p = 0;
+            if (!that._p) //if that is a null pointer
+                _p = 0; //then define yourself as null
             else
-                _p = that._p->clone();}
+                _p = that._p->clone();} //otherwise clone it to be able to use it
 
         ~Handle () {
             delete _p;}

@@ -8,11 +8,11 @@
 #include "Handle1.h"
 #include "Shapes.h"
 
-struct Shape : Handle<AbstractShape> {
+struct Shape : Handle<AbstractShape> { //Shape inherits from Handle
     Shape (AbstractShape* p) :
             Handle<AbstractShape> (p)
         {}
-/*
+/* //Get for free bc it calls on the parent's versions
     Shape (const Shape& that) :
             Handle<AbstractShape> (that)
         {}
@@ -25,10 +25,10 @@ struct Shape : Handle<AbstractShape> {
         return *this;}
 */
     double area () const {
-        return get()->area();}
+        return get()->area();} //get the const_pointer
 
-    void move (int x, int y) {
-        return get()->move(x, y);}};
+    void move (int x, int y) { 
+        return get()->move(x, y);}}; //gets the non const pointer
 
 int main () {
     using namespace std;
@@ -50,9 +50,9 @@ int main () {
     }
 
     {
-    const Shape x = new Circle(2, 3, 4);
-//  x.move(5, 6);                         // doesn't compile
-    assert(x.area()   == (3.14 * 4 * 4));
+    const Shape x = new Circle(2, 3, 4); //build circle on heap and shape on stack
+//  x.move(5, 6);  // doesn't compile since shape is const and move is a non-const method
+    assert(x.area()   == (3.14 * 4 * 4)); //since area is virtual in AS the right area (Cricle's) is called
 //  assert(x.radius() == 4);              // doesn't compile
     }
 
@@ -81,7 +81,7 @@ int main () {
     {
     Shape x = new Circle(2, 3, 4);
     assert(x.area() == (3.14 * 4 * 4));
-    x = new Circle(5, 6, 7);
+    x = new Circle(5, 6, 7); //It works because Circle is implicitly converted
     assert(x.area() == (3.14 * 7 * 7));
     }
 
