@@ -1,0 +1,19 @@
+1. What does the new operator*() method return?
+
+2. What does Handle's new operator->() method return?
+
+3. What do operator* and operator-> in Handle eliminate the need for?
+
+4. What is a reference count used for? Why is it useful?
+
+5. Write Handle3's (with reference counts) get() method
+
+6. Write Handle3's (with reference counts) copy constructor
+
+7. Does where is the object pointer in Handle3 now?
+
+8. Why is Handle3's design useful?
+
+9. What does the boost::shared_ptr.hpp library offer? What are the two particular functions of its API that we used?
+
+10. Write a line of code that creates a shared_ptr object of type Circle with dimensions and radii of 2,3,4
