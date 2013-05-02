@@ -1,0 +1,33 @@
+Files to Study for final:
+CopyAssignment.java - check
+CopyAssignment.c++ - check
+Inheritance.java
+Inheritance.c++
+DynamicBinding.c++
+DynamicBinding.java
+AbstractClasses.java
+Shapes.h
+AbstractClasses.c++
+Handle1.h
+Handle1.c++
+MethodOverriding1.java
+MethodOverriding1.c++
+MethodOverriding2.java
+MethodOverriding2.c++
+Handle2.h
+Handle2.c++
+Handle3.h
+Handle3.c++
+SharedPtr.c++
+MultipleInheritance.c++
+DoubleInheritance.c++
+VirtualInheritance.c++
+PublicInheritance.c++
+ProtectedInheritance.c++
+PrivateInheritance.c++
+Singleton.java
+Singleton.c++
+
+Remember:
+Java is dynamically bound
+C++ is statically bound

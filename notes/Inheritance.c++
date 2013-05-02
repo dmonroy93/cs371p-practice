@@ -86,10 +86,10 @@ class Circle : public Shape {
         int radius () const {
             return _r;}};
 
-struct A {
+struct A { //size is one double
     double x;};
 
-struct B : A {
+struct B : A { //size is three doubles
     double y;
     double z;};
 
@@ -109,14 +109,14 @@ int main () {
     const Shape x(2, 3);
           Shape y(4, 5);
     assert(x != y);
-    y = x;
+    y = x; //wouldn't work if y was const
     assert(x == y);
     }
 
     {
     Circle x(2, 3, 4);
     x.move(5, 6);
-    assert(x.area()   == 3.14 * 4 * 4);
+    assert(x.area()   == 3.14 * 4 * 4); //static binding
     assert(x.radius() == 4);
     }
 
@@ -130,11 +130,11 @@ int main () {
 
     {
 //  Circle* const p = new Shape(2, 3);         // doesn't compile
-    Shape*  const p = new Circle(2, 3, 4);
-    p->move(5, 6);
-    assert(p->area()   == 0);
-//  assert(p->radius() == 4);                  // doesn't compile
-//  delete p;                                  // illdefined
+    Shape*  const p = new Circle(2, 3, 4);//making pointer const won't allow me to point elsewhere without deleting
+    p->move(5, 6); //equivalent to (*p).move(5,6);
+    assert(p->area()   == 0); //gets shape's area
+//  assert(p->radius() == 4); // doesn't compile // thinks p is a shape
+//  delete p;  // illdefined because since it's statically bound it will run only on Shape's destructor
     Circle* const q = static_cast<Circle*>(p);
     assert(q->area()   == 3.14 * 4 * 4);
     assert(q->radius() == 4);
@@ -143,13 +143,13 @@ int main () {
 
     {
     const Shape* const p = new Circle(2, 3, 4);
-          Shape* const q = new Circle(2, 3, 5);
-//  assert(*p != *q);                                      // illdefined
-//  *q = *p;                                               // illdefined
-//  assert(*p == *q);                                      // illdefined
-//  delete p;                                              // illdefined
-//  delete q;                                              // illdefined
-    const Circle* const r = static_cast<const Circle*>(p);
+          Shape* const q = new Circle(2, 3, 5); //All of these run Shape's operators:
+//  assert(*p != *q);   // illdefined
+//  *q = *p;            // illdefined //There's a slciing that occurs here
+//  assert(*p == *q);   // illdefined //Therefore it appears like they're the same
+//  delete p;           // illdefined
+//  delete q;           // illdefined
+    const Circle* const r = static_cast<const Circle*>(p); //Casting works but it's stupid
           Circle* const s = static_cast<      Circle*>(q);
     assert(*r != *s);
     *s = *r;
@@ -159,8 +159,8 @@ int main () {
     }
 
     {
-//  const Circle a[] = {Shape(2, 3), Circle(4, 5, 6)}; // doesn't compile
-    const Shape  a[] = {Shape(2, 3), Circle(4, 5, 6)};
+//  const Circle a[] = {Shape(2, 3), Circle(4, 5, 6)}; // doesn't compile //In Java you make an array of reference in c++ it's actual circles
+    const Shape  a[] = {Shape(2, 3), Circle(4, 5, 6)}; //Slicing occurs here with the circle
     assert(a[0].area() == 0);
     assert(a[1].area() == 0);
     }
@@ -169,9 +169,9 @@ int main () {
     const Circle a[] = {Circle(2, 3, 4), Circle(5, 6, 7)};
     assert(a[0].area() == 3.14 * 4 * 4);
     assert(a[1].area() == 3.14 * 7 * 7);
-    const Shape* const p = a;
+    const Shape* const p = a; //pointer points to a circle array
     assert(p[0].area() == 0);
-//  assert(p[1].area() == 0);                              // illdefined
+//  assert(p[1].area() == 0); // illdefined //points to the next "Shape"
     }
 
     {

@@ -15,13 +15,18 @@ class Shape {
     public double area () {
         return 0;}
 
-    public boolean equals (Object rhs) {
-        if (!(rhs instanceof Shape))
+    public boolean equals (Object rhs) { 
+    //Since you need to override the equals method of Object the parameter is an Object
+        if (!(rhs instanceof Shape)) 
+        //But then you check if it's a shape
             return false;
-        Shape that = (Shape) rhs;
+        Shape that = (Shape) rhs; 
+        //Since rhs is a Shape you can cast it //This gives you access to its _x and _y
         return (_x == that._x) && (_y == that._y);}
+        //_x and _y are attributes of Shape
 
-    public final void move (int x, int y) {
+    public final void move (int x, int y) { 
+    //You don't want anyone to override move which is why it's final
         _x = x;
         _y = y;}
 
@@ -31,8 +36,10 @@ class Shape {
 class Circle extends Shape {
     private int _r;
 
-    public Circle (int x, int y, int r) {
-        super(x, y);
+    public Circle (int x, int y, int r) { 
+        //_x and _y must have the same relevant position as in the super class
+        super(x, y); 
+        //If this wasn't there it won't compile because Shape doesn't have a default constructor
         _r = r;}
 
     public double area () {
@@ -83,12 +90,15 @@ final class Inheritance {
         assert x.equals(y);
         }
 
+
         {
 //      final Circle x = new Shape(2, 3);             // error: incompatible types
-        final Shape  x = new Circle(2, 3, 4);
-        assert x.area()              == 3.14 * 4 * 4;
-        x.move(5, 6);
-//      assert x.radius()            == 0;            // error: cannot find symbol
+        final Shape  x = new Circle(2, 3, 4); 
+        //You can only see Circle's Shape qualities
+        assert x.area()              == 3.14 * 4 * 4; 
+        //calls circle's area bc Java is dynamically bound
+        x.move(5, 6); //Statically bound
+//      assert x.radius()            == 0;            // error: cannot find symbol 
         assert ((Circle) x).radius() == 4;
         assert x.toString().equals("(5, 6, 4)");
         }
@@ -103,13 +113,16 @@ final class Inheritance {
         {
 //      final Circle[] a = {new Shape(2, 3), new Circle(2, 3, 4)}; // error: incompatible types
         final Shape[]  a = {new Shape(2, 3), new Circle(2, 3, 4)};
+        //There's no slicing but this wouldn't work in c++
         assert a[0].area() == 0;
         assert a[1].area() == 3.14 * 4 * 4;
         }
 
         {
-        final Shape[]          a = new Circle[3];
+        final Shape[]          a = new Circle[3]; //Arrays are covariant
 //      final ArrayList<Shape> x = new ArrayList<Circle>(10); // error: incompatible types
+        //^Doesn't work but you can still create an arraylist of shapes and add circles to it later
         }
 
         System.out.println("Done.");}}
+        
